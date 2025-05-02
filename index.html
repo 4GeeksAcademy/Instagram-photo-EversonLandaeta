@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>benji</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+ 
+    <style>
+    input[type="radio"] {
+      display: none;
+    }
+
+    /* Contenedor principal */
+    .post-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      transition: all 0.5s ease;
+    }
+
+    /* Cada item */
+    .post {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      background: white;
+      transition: all 0.5s ease;
+    }
+    .post img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+      transition: all 0.5s ease;
+    }
+    /*H5 + fecha del feed*/
+    .post-header { 
+
+  background: white;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #ddd;
+  display: none;
+
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+}
+.post-header h5,
+.post-header .small {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+    .post-body {
+      padding: 1rem;
+      display: none;
+    }
+
+    /* Cuando FEED está activo */
+    #feed:checked ~ .content .post-container {
+      grid-template-columns: 100%; 
+      max-width: 600px;
+      margin: auto;
+      padding: 10px 10px 10px 10px;
+    }
+    #feed:checked ~ .content .post .post-header{
+      display:flex;
+    }
+    #feed:checked ~ .content  .post .post-body {
+      display: block;
+    }
+
+    /* Cuando GRID está activo */
+    #grid:checked ~ .content .post-container {
+      grid-template-columns: repeat(auto-fill, minmax(350px, 2fr));
+    }
+    #grid:checked ~ .content .post {
+      display: block;
+    }
+    #grid:checked ~ .content .post-body {
+      display: none;
+    }
+
+    /* Estilos de botones activo */
+    label {
+      cursor: pointer;
+    }
+    input#grid:checked ~ .toggle-buttons label[for="grid"] ,
+    input#feed:checked ~ .toggle-buttons label[for="feed"] {
+      background-color: #0d6efd;
+      color: rgb(190, 189, 189);
+      
+    }
+
+    /* Alinear íconos */
+    .toggle-buttons label {
+      font-size: 1.5rem;
+      padding: 5px 5px 5px 5px;
+      margin-top: 10px;
+      }
+
+  </style>    
+ 
+</head>
+<body class="bg-light px-4 py-3">
+<div class="container py-4">
+
+
+<!--Encabezado-->
+  <div class="d-flex justify-content-between align-items-center bg-white p-3 shadow-sm rounded fs-4">
+    <div class="d-flex align-items-center">
+      <i class="bi bi-instagram me-2 fs-3"></i>
+      <strong>Instagram</strong>
+    </div>
+    <div class="d-flex gap-2">
+
+
+      <!-- Modal trigger -->
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newPostModal">
+        Create a new post
+      </button>
+
+      <!-- Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          <i class="bi bi-gear"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="#">Accesibility</a></li>
+          <li><a class="dropdown-item" href="#">Privacy and Data</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#" >Log out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+ <!-- Modal -->
+<div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Encabezado modal -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPostModalLabel">Create a new post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      
+      <!-- Cuerpo modal -->
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="caption" class="form-label">Caption:</label>
+          <textarea class="form-control" id="caption" placeholder="Add the caption of your post here" rows="3"></textarea>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary" type="button">
+            <i class="bi bi-camera"></i> <!-- Camera -->
+          </button>
+          <button class="btn btn-outline-secondary" type="button">
+            <i class="bi bi-geo-alt"></i> <!-- Map -->
+          </button>
+        </div>
+      </div>
+      
+      <!-- Pie del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Publish</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Radios para controlar-->
+<input type="radio" name="view" id="grid" checked>
+<input type="radio" name="view" id="feed">
+
+<!-- Botones -->
+<div class="toggle-buttons text-center mb-4">
+  <label for="grid" class="btn btn-outline-secondary me-2">
+    <i class="bi bi-grid-3x3-gap-fill"></i> <!-- ícono de grid -->
+  </label>
+  <label for="feed" class="btn btn-outline-secondary">
+    <i class="bi bi-layout-text-sidebar-reverse"></i> <!-- ícono de feed -->
+  </label>
+</div>
+
+<!--Contenido-->
+<div class="content">
+  <div class="post-container">
+
+          
+ <!-- Post 1 -->
+ <div class="post shadow-sm">
+  <div class="post-header">
+    <h5>Backend!</h5>
+    <p class="text-muted small">08/02/25</p>
+  </div>
+  <img src="code.jpg" alt="Dog 1">
+  <div class="post-body">
+    <p><strong>204,656 Likes</strong></p>
+    <p>This is a beginning of my trip in the code world!</p>
+  </div>
+</div>
+
+<!-- Post 2 -->
+<div class="post shadow-sm">
+  <div class="post-header">
+    <h5> Mediterranean Sea</h5>
+    <p class="text-muted small">09/10/25</p>
+  </div>
+  <img src="dive.jpg" alt="Code">
+  <div class="post-body">
+    <p><strong>150.263 Likes</strong></p>
+    <p>Discovering the mediterranean with my friend the eel!</p>
+  </div>
+</div>
+
+<!-- Post 3 -->
+<div class="post shadow-sm">
+  <div class="post-header">
+    <h5>Yacks-Company</h5>
+    <p class="text-muted small">10/01/26</p>
+  </div>
+  <img src="yacks..JPG" alt="Scuba">
+  <div class="post-body">
+    <p><strong>1,236,255 Likes</strong></p>
+    <p>Cero copyrigth bitches !.</p>
+  </div>
+</div>
+ <!-- Post 4 -->
+ <div class="post shadow-sm">
+ <div class="post-header">
+  <h5>My Crazy Dog Thanos!</h5>
+    <p class="text-muted small">01/08/26</p>
+ </div>
+  <img src="doggy.jpg" alt="Dog 1">
+  <div class="post-body">
+    <p><strong>204 Likes</strong></p>
+    <p>He is confused whether i throw the ball to him or not..</p>
+  </div>
+</div>
+
+<!-- Post 5 -->
+<div class="post shadow-sm">
+  <div class="post-header">
+    <h5>California</h5>
+    <p class="text-muted small">02/10/25</p>
+  </div>
+  <img src="photo.jpg" alt="Code">
+  <div class="post-body">
+    <p><strong>1,500 Likes</strong></p>
+    <p>my new analogyc Camera!</p>
+  </div>
+</div>
+
+<!-- Post 6 -->
+<div class="post shadow-sm">
+  <div class="post-header">
+    <h5>Barajas Airport</h5>
+    <p class="text-muted small">10/01/26</p>
+  </div>
+  <img src="plane.jpg" alt="Scuba">
+  <div class="post-body">
+    <p><strong>99,258 Likes</strong></p>
+    <p>One afternoon in the Barajas Airport.</p>
+  </div>
+</div>
+
+  </div>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+        
+        </body>
+</html>
